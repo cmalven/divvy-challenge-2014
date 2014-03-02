@@ -5,8 +5,10 @@ Router.configure
 Router.map ->
 
   @route 'index',
-    path: '/',
-    template: 'index'
+    path: '/'
+    template: 'map'
+    yieldTemplates:
+      'timeline': {to: 'foot'}
     waitOn: ->
       return [
         Meteor.subscribe('stations')

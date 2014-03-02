@@ -1,0 +1,17 @@
+//---------------------------------------------------------------
+// Controls
+//---------------------------------------------------------------
+
+.controls {
+  position: fixed;
+  top: 100px;
+  right: 100px;
+}
+
+.controls__control {
+
+}
+
+.controls__control__link {
+  display: block;
+}

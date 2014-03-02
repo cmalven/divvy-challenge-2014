@@ -11,3 +11,5 @@ jquery
 iron-router
 fastclick
 underscore
+d3
+auto-nprogress

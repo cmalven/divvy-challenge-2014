@@ -1,3 +1,11 @@
 <template name="layout">
-  {{ yield }}
+  
+  <section class="l-layout-main">
+    {{yield}}
+  </section>
+
+  <section class="l-layout-foot">
+    {{ yield 'foot'}}
+  </section>
+
 </template>
