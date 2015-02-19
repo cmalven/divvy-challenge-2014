@@ -4,12 +4,11 @@
 # but you can also edit it by hand.
 
 standard-app-packages
-preserve-inputs
 coffeescript
 less
 jquery
-iron-router
 fastclick
 underscore
 d3
-auto-nprogress
+settinghead:auto-nprogress
+iron:router
