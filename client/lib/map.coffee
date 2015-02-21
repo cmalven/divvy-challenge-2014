@@ -32,7 +32,7 @@ class root.Map
 
   _addEventListeners: =>
     # Listen for new trips to be added
-    PubSub.subscribe('tripsUpdated', @_stationSetup)
+    PubSub.subscribe('tripsUpdated', @_resetStations)
 
     # Mouse Movement Listeners
     $(window).on 'mousemove', (evt) =>
@@ -48,7 +48,7 @@ class root.Map
     @_renderScene()
     requestAnimationFrame(@_update)
 
-  _stationSetup: =>
+  _resetStations: =>
     @stations = Stations.find({}, {sort: {latitude: 1}}).fetch()
     @stationBeingRendered = 0
     @_removeSceneItems()
