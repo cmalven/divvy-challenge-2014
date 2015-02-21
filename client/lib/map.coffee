@@ -28,7 +28,7 @@ class root.Map
     @_threeMapSetup()
     @_addEventListeners()
     @_renderPlane()
-    @_render()
+    @_update()
 
   _addEventListeners: =>
     # Listen for new trips to be added
@@ -43,16 +43,24 @@ class root.Map
     $(window).on 'mouseup', (evt) =>
       @mousedown = false
 
+  _update: =>
+    @_renderStation()
+    @_renderScene()
+    requestAnimationFrame(@_update)
+
   _stationSetup: =>
     @stations = Stations.find({}, {sort: {latitude: 1}}).fetch()
     @stationBeingRendered = 0
     @_removeSceneItems()
-    @_renderStation()
     @_renderPlane()
     @_renderMarkers()
     #@_generateStations('tripsByToStation', 0.04, @threeScene.material2)
 
   _renderStation: =>
+    # Stop if there aren't any stations or we've already rendered every station
+    return unless @stations
+    return if @stationBeingRendered is @stations.length - 1
+
     station = @stations[@stationBeingRendered]
     sizes = 0.04
     # All trips from this station contribute to the size
@@ -69,9 +77,7 @@ class root.Map
     cube.position.z = height / 2
     @threeScene.scene.add( cube )
 
-    unless @stationBeingRendered is @stations.length - 1
-      @stationBeingRendered++ 
-      requestAnimationFrame(@_renderStation)
+    @stationBeingRendered++ 
 
   _renderMarkers: =>
     for marker in markerPositions
@@ -108,8 +114,7 @@ class root.Map
   _threeMapSetup: =>
     @threeScene = new ThreeMapScene()
 
-  _render: =>
-    requestAnimationFrame(@_render)
+  _renderScene: =>
     @_updateCameraPosition()
     @threeScene.renderer.render(@threeScene.scene, @threeScene.camera)
 
