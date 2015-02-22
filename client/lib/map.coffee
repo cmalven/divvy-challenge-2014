@@ -69,7 +69,8 @@ class root.Map
     height = 0.001 + heightIncrement * numTripsForStation
     geometry = new THREE.CubeGeometry(sizes, sizes, height)
     colorIndex = convertToRange(height, 0, 10, 0.08, 0.2)
-    color = new THREE.Color(0x000000).setHSL(colorIndex, 0.8, 0.5)
+    colorSat = if numTripsForStation > 0 then 0.8 else 0
+    color = new THREE.Color(0x000000).setHSL(colorIndex, colorSat, 0.5)
     material = new THREE.MeshPhongMaterial( { color: color, specular: 0xffffff, shininess: 20, shading: THREE.FlatShading } )
     cube = new THREE.Mesh( geometry, material)
     cube.position.x = @_convertLng(station.longitude)
