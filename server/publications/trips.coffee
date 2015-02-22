@@ -3,7 +3,7 @@ Meteor.publish 'trips', ->
 
 Meteor.publish 'tripsForDate', (dateString) ->
   splitDate = dateString.split('-')
-  startDate = new Date(Number(splitDate[0]), Number(splitDate[1]), Number(splitDate[2]), 0)
+  startDate = new Date(Number(splitDate[0]), Number(splitDate[1]) - 1, Number(splitDate[2]), 0)
   endDate = new Date()
   endDate.setTime(startDate.getTime())
   endDate.setHours(23)
