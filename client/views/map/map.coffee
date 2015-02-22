@@ -1,14 +1,14 @@
 Template.map.helpers
 
-  foo: ->
-    return "You're in the map view!"
-
 Template.map.rendered = ->
+  # Listen for New Trips to be fetched from server
+  Trips.find().observe
+    added: ->
+      if Trips.find().count() % 20 is 0
+        PubSub.publish('tripsUpdated')
+
   # Create the map
   new Map()
-
-  # Update the data when everything is loaded
-  PubSub.publish('tripsUpdated')
   
 Template.map.events
   'click .foo': (evt) ->

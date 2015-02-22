@@ -8,8 +8,8 @@ Router.map ->
     path: '/'
     template: 'map'
     yieldTemplates:
-      'timeline': {to: 'foot'}
-    waitOn: ->
+      'timeline': { to: 'foot' }
+    subscriptions: ->
       return [
         Meteor.subscribe('stations')
         Meteor.subscribe('trips')
