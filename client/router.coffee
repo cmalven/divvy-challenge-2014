@@ -6,13 +6,18 @@ Router.map ->
 
   @route 'index',
     path: '/'
+    action: ->
+      Router.go('/2013-5-27')
+
+  @route 'date',
+    path: '/:date'
     template: 'map'
     yieldTemplates:
       'timeline': { to: 'foot' }
     subscriptions: ->
       return [
         Meteor.subscribe('stations')
-        Meteor.subscribe('trips')
+        Meteor.subscribe('tripsForDate', @params.date)
       ]
     data: ->
       {
