@@ -65,13 +65,20 @@ class root.Map
     sizes = 0.04
     # All trips from this station contribute to the size
     numTripsForStation = Trips.find({from_station_name: station.name}).count()
-    heightIncrement = 0.04
+    heightIncrement = 0.08
     height = 0.001 + heightIncrement * numTripsForStation
     geometry = new THREE.CubeGeometry(sizes, sizes, height)
     colorIndex = convertToRange(height, 0, 2, 0.08, 0.2)
-    colorSat = if numTripsForStation > 0 then 0.8 else 0
+    colorSat = 0.8
+    opacity = 1
+    
+    # Unique color and opacity if the station has no trips
+    if numTripsForStation is 0
+      colorSat = 0
+      opacity = 0.4
+
     color = new THREE.Color(0x000000).setHSL(colorIndex, colorSat, 0.5)
-    material = new THREE.MeshPhongMaterial( { color: color, specular: 0xffffff, shininess: 20, shading: THREE.FlatShading } )
+    material = new THREE.MeshPhongMaterial( { color: color, specular: 0xffffff, shininess: 20, shading: THREE.FlatShading, transparent: true, opacity: opacity } )
     cube = new THREE.Mesh( geometry, material)
     cube.position.x = @_convertLng(station.longitude)
     cube.position.y = @_convertLat(station.latitude)
@@ -120,10 +127,10 @@ class root.Map
     @threeScene.renderer.render(@threeScene.scene, @threeScene.camera)
 
   _updateCameraPosition: =>
-    cameraMinX = -4
-    cameraMaxX = 4
-    cameraMinY = 4
-    cameraMaxY = -4
+    cameraMinX = 5
+    cameraMaxX = -5
+    cameraMinY = -5
+    cameraMaxY = 5
     cameraMaxZ = 4
     cameraMinZ = 12
 
@@ -138,3 +145,5 @@ class root.Map
     else if camPos < cameraMinZ and not @mousedown
       camDirection = 0.5
     @threeScene.camera.position.z += camDirection
+    lookPosition = new THREE.Vector3( 2, 0, 2 )
+    @threeScene.camera.lookAt( lookPosition )
